@@ -1,18 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IParamTypes } from '../../types';
 
 const initialState = {
-  length: 12,
+  length: 15,
   hasUppercase: true,
   hasLowercase: true,
   hasNumbers: true,
   hasSymbols: true,
 };
-
-type IParamTypes =
-  | 'hasUppercase'
-  | 'hasLowercase'
-  | 'hasNumbers'
-  | 'hasSymbols';
 
 const settingsReducer = createSlice({
   name: 'settings',
