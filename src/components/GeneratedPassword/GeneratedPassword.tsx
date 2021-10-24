@@ -3,19 +3,18 @@ import { useSelector } from '../../hook/useSelector';
 import styles from './GeneratedPassword.module.css';
 import copyImg from '../../assets/copy.png';
 import generateImg from '../../assets/generate.svg';
-import star from '../../assets/star.png';
-import filledStar from '../../assets/filledStar.png';
 import { useDispatch } from 'react-redux';
 import {
   setPassword,
   setPasswordStrength,
-  setSavedPasswords,
 } from '../../store/reducers/passwordReducer';
 import {
   copyPassword,
   generatePassword,
   getPasswordStrength,
 } from '../../common/functions';
+import { Strength } from '../Strength/Strength';
+import { Star } from '../Star/Star';
 
 export const GeneratedPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,9 +23,6 @@ export const GeneratedPassword: React.FC = () => {
 
   const settings = useSelector(s => s.settings);
   const { password, passwordStrength } = useSelector(s => s.password);
-  const isPasswordSaved = useSelector(s =>
-    s.password.savedPasswords.includes(password)
-  );
 
   const onPasswordGenerate = () => {
     setAnimate(true);
@@ -34,10 +30,6 @@ export const GeneratedPassword: React.FC = () => {
     const strength = getPasswordStrength(password);
     dispatch(setPassword(password));
     dispatch(setPasswordStrength(strength));
-  };
-
-  const savePassword = () => {
-    dispatch(setSavedPasswords(password));
   };
 
   return (
@@ -50,28 +42,21 @@ export const GeneratedPassword: React.FC = () => {
         disabled
       />
       <div className={styles.icons}>
-        <button onClick={savePassword}>
-          <img src={isPasswordSaved ? filledStar : star} alt='' />
-        </button>
-        <button onClick={() => copyPassword(password)}>
+        <Star password={password} strength={passwordStrength} />
+        <button onClick={() => copyPassword(password)} title='copy'>
           <img src={copyImg} alt='copy' />
         </button>
         <button
           className={animate ? styles.animate : ''}
           onClick={onPasswordGenerate}
           onAnimationEnd={() => setAnimate(false)}
+          title='generate'
         >
           <img src={generateImg} alt='generate' />
         </button>
       </div>
 
-      <div className={styles.strengthWrap}>
-        <div
-          className={`${styles.strength} ${
-            styles[`strength${passwordStrength}`]
-          }`}
-        />
-      </div>
+      <Strength passwordStrength={passwordStrength} />
     </div>
   );
 };

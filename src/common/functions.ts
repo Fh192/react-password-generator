@@ -58,3 +58,7 @@ export const getPasswordStrength = (password: string) => {
 export const copyPassword = (password: string) => {
   navigator.clipboard.writeText(password);
 };
+
+export const scrollToSection = (section: HTMLElement | null) => {
+  section?.scrollIntoView({ behavior: 'smooth' });
+};

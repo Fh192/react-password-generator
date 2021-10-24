@@ -1,10 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPasswordStrength } from '../../types';
 
+interface ISavedPassword {
+  password: string;
+  strength: IPasswordStrength;
+}
+
 const initialState = {
   password: '' as string,
   passwordStrength: 0 as IPasswordStrength,
-  savedPasswords: [] as string[],
+  savedPasswords: JSON.parse(
+    localStorage.getItem('savedPasswords') || '[]'
+  ) as ISavedPassword[],
 };
 
 const passwordReducer = createSlice({
@@ -17,16 +24,24 @@ const passwordReducer = createSlice({
     setPasswordStrength: (state, action: PayloadAction<IPasswordStrength>) => {
       state.passwordStrength = action.payload;
     },
-    setSavedPasswords: (state, action: PayloadAction<string>) => {
-      const includes = state.savedPasswords.includes(action.payload);
-      console.log(includes);
+    setSavedPasswords: (state, action: PayloadAction<ISavedPassword>) => {
+      const { password } = action.payload;
+      const includes = state.savedPasswords.some(v => v.password === password);
+
+      localStorage.removeItem('savedPasswords');
+
       if (includes) {
         state.savedPasswords = state.savedPasswords.filter(
-          p => p !== action.payload
+          p => p.password !== password
         );
       } else {
         state.savedPasswords.unshift(action.payload);
       }
+
+      localStorage.setItem(
+        'savedPasswords',
+        JSON.stringify(state.savedPasswords)
+      );
     },
   },
 });
