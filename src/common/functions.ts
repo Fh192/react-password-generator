@@ -56,9 +56,23 @@ export const getPasswordStrength = (password: string) => {
 };
 
 export const copyPassword = (password: string) => {
-  navigator.clipboard.writeText(password);
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    )
+  ) {
+    const tempInput = document.createElement('input');
+    tempInput.value = password;
+    document.body.appendChild(tempInput);
+
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+  } else {
+    navigator.clipboard.writeText(password);
+  }
 };
 
 export const scrollToSection = (section: HTMLElement | null) => {
-  section?.scrollIntoView({ behavior: 'smooth' });
+  section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };

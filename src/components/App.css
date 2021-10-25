@@ -2,10 +2,29 @@ html {
   overflow: hidden;
 }
 
+body {
+  background: #18191a;
+}
+
+button,
+textarea,
+input,
+select,
+label,
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .App {
   min-width: 100vw;
   min-height: 100vh;
-  background: #18191a;
+  overflow: hidden;
 }
 
 .container {
@@ -79,7 +98,6 @@ html {
 
 .mainWrapper,
 .savedPasswordsWrap {
-  position: relative;
   width: 100vw;
   min-height: 100vh;
   height: 100%;
@@ -89,14 +107,33 @@ html {
   justify-content: center;
 }
 
-.mainWrapper {
-  justify-content: flex-end;
-}
-
 .scroll {
   margin-bottom: 10px;
 }
 
 .scroll img {
   width: 50px;
+}
+
+@media screen and (max-width: 550px) {
+  .title {
+    display: none;
+  }
+  .subtitle {
+    padding: 20px;
+  }
+
+  .container {
+    gap: 0px;
+  }
+  .scroll {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 230px) {
+  .copy button {
+    padding: 10px 15px;
+    font-size: 20px;
+  }
 }

@@ -21,8 +21,13 @@ const settingsReducer = createSlice({
       action: PayloadAction<{ type: IParamTypes; has: boolean }>
     ) => {
       const { has, type } = action.payload;
+      const isAnyHas = Object.entries(state).some(
+        v => v[0] !== type && v[1] === true
+      );
 
-      state[type] = has;
+      if (isAnyHas) {
+        state[type] = has;
+      }
     },
   },
 });
