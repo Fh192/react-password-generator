@@ -16,49 +16,18 @@ const App: React.FC = () => {
   useEffect(() => {
     const listener = (e: WheelEvent) => {
       const direction = e.deltaY < 0 ? 'up' : 'down';
-
-      if (direction === 'down') {
-        scrollToSection(savedPasswordsRef.current);
-      } else {
-        scrollToSection(mainRef.current);
+      
+      if (window.innerWidth > 550) {
+        if (direction === 'down') {
+          scrollToSection(savedPasswordsRef.current);
+        } else {
+          scrollToSection(mainRef.current);
+        }
       }
     };
 
     document.addEventListener('wheel', listener);
     return () => document.removeEventListener('wheel', listener);
-  }, [mainRef, savedPasswordsRef]);
-
-  useEffect(() => {
-    let touchstartY = 0;
-    let touchendY = 0;
-
-    function handleGesture() {
-      if (touchendY < touchstartY && touchstartY - touchendY >= 50) {
-        window.parent.scrollTo({
-          behavior: 'smooth',
-          top: document.body.scrollHeight,
-        });
-      } else if (touchendY > touchstartY && touchendY - touchstartY >= 50) {
-        window.parent.scrollTo({ behavior: 'smooth', top: 0 });
-      }
-    }
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchstartY = e.changedTouches[0].screenY;
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      touchendY = e.changedTouches[0].screenY;
-      handleGesture();
-    };
-
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
   }, [mainRef, savedPasswordsRef]);
 
   return (

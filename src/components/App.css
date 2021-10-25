@@ -123,11 +123,29 @@ a {
     padding: 20px;
   }
 
+  .mainWrapper,
+  .savedPasswordsWrap {
+    min-height: unset;
+  }
+
+  .savedPasswordsWrap {
+    justify-content: flex-end;
+  }
+
+  .copy {
+    display: none;
+  }
+
   .container {
-    gap: 0px;
+    min-height: 100vh;
+    justify-content: space-between;
+    gap: 30px;
   }
   .scroll {
     display: none;
+  }
+  html {
+    overflow-y: auto;
   }
 }
 
